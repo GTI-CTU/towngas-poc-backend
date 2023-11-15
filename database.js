@@ -98,13 +98,16 @@ export async function createChatDetail(
   thoughts,
   tokenusage
 ) {
-  await pool.query(
+  const [result] = await pool.query(
     `
   INSERT INTO chat_details (chat_id, question, answer, thoughts, token_usage)
   VALUES (?, ?, ?, ?, ?)
   `,
     [chatid, question, answer, thoughts, tokenusage]
   );
+
+  const result_id = result.insertId;
+  return result_id;
 }
 
 export async function createChatDetailDatasource(chatdetailsid, datasource) {
