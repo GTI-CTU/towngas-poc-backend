@@ -1,0 +1,1 @@
+az webapp up --sku B1 --name [app name] --resource-group [resource group name]
