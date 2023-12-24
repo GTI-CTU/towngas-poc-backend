@@ -1,11 +1,11 @@
-param webAppName string = uniqueString(resourceGroup().id) // Generate unique String for web app name
+param webAppName string = 'backendtestdeploy' // Generate unique String for web app name
 param sku string = 'B1' // The SKU of App Service Plan
 param linuxFxVersion string = 'node|18-LTS' // The runtime stack of web app
 param location string = resourceGroup().location // Location for all resources
-param repositoryUrl string = 'https://github.com/GTI-CTU/towngas-poc-backend'
-param branch string = 'main'
-var appServicePlanName = toLower('AppServicePlan-${webAppName}')
-var webSiteName = toLower('wapp-${webAppName}')
+// param repositoryUrl string = 'https://github.com/GTI-CTU/towngas-poc-backend'
+// param branch string = 'main'
+var appServicePlanName = 'plan-v34jptdq6qifs'
+var webSiteName = webAppName
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   name: appServicePlanName
@@ -30,11 +30,11 @@ resource appService 'Microsoft.Web/sites@2020-06-01' = {
   }
 }
 
-resource srcControls 'Microsoft.Web/sites/sourcecontrols@2021-01-01' = {
-  name: '${appService.name}/web'
-  properties: {
-    repoUrl: repositoryUrl
-    branch: branch
-    isManualIntegration: true
-  }
-}
+// resource srcControls 'Microsoft.Web/sites/sourcecontrols@2021-01-01' = {
+//   name: '${appService.name}/web'
+//   properties: {
+//     repoUrl: repositoryUrl
+//     branch: branch
+//     isManualIntegration: true
+//   }
+// }
