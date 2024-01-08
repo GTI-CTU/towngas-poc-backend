@@ -9,6 +9,7 @@ const pool = mysql
     database: "towngas-poc-testing",
     port: 3306,
     ssl: {
+      rejectUnauthorized: false,
       ca: fs.readFileSync("DigiCertGlobalRootCA.crt.pem"),
     },
   })
