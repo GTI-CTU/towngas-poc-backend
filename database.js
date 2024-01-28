@@ -76,6 +76,20 @@ export async function updateUsersTokenUsage(token, id) {
   return getUser(id);
 }
 
+export async function getUserChats(userid) {
+  const [rows] = await pool.query(
+    `select * from chats where user_id = ${userid} AND deleted = false LIMIT 1`
+  );
+  return rows;
+}
+
+export async function getUserChatID(userid) {
+  const [rows] = await pool.query(
+    `select * from chats where user_id = ${userid} AND deleted = false LIMIT 1`
+  );
+  return rows[0].id;
+}
+
 export async function getAllUserchats(userid) {
   const [rows] = await pool.query(
     `select * from chats where user_id = ${userid} AND deleted = false`
@@ -121,7 +135,7 @@ export async function getChatDetail(id) {
   const [rows] = await pool.query(`
   SELECT * 
   FROM chat_details
-  WHERE chat_id = ${id}
+  WHERE chat_id = ${id} AND cleared = false
   `);
   return rows;
 }
@@ -152,5 +166,17 @@ export async function createChatDetailDatasource(chatdetailsid, datasource) {
   VALUES (?, ?)
   `,
     [chatdetailsid, datasource]
+  );
+}
+
+export async function clearChatDetails(userid) {
+  const chat_id = await getUserChatID(userid);
+
+  await pool.query(
+    `
+    Update chat_details 
+    SET cleared = true
+    WHERE chat_id = ${chat_id} AND cleared = false
+    `
   );
 }
